@@ -1,0 +1,50 @@
+import React from 'react';
+import { render } from 'react-dom';
+import { Home, Mine, Search } from './screens';
+import { Provider } from 'react-redux';
+
+const Route = (WrappedComponent, routes) => {
+  return class extends React.Component {
+    render() {
+      const ComponentForPathname = routes[this.props.pathname];
+      return (
+        <WrappedComponent>
+          <ComponentForPathname {...this.props} />
+        </WrappedComponent>
+      );
+    }
+  };
+};
+
+const Root = props => {
+  <div>
+    {props.children}
+  </div>;
+};
+
+const Router = Route(Root, {
+  "/": Home,
+  "/search": Search,
+  "/mine": Mine
+});
+
+const Index = ({ store }) => (
+  <Provider store={store}>
+    <div>
+      <Router>
+        <Route path="/" component={Home} />
+        <Route path="/search" component={Search} />
+        <Route path="/mine" component={Mine} />
+      </Router>
+    </div>
+  </Provider>
+);
+
+let pathname = window.location.pathname;
+
+render(<Router pathname={pathname} />, document.getElementById("root"));
+render(<Index />, document.getElementById("root"));
+
+window.addEventListener("popstate", () => {
+  pathname = window.location.pathname;
+});
