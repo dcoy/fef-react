@@ -22,12 +22,18 @@ class Home extends React.Component {
       .catch(err => console.log(err))
   }
 
+  onSearch(value) {
+    fetch(`https://api.github.com/users/${value}`)
+    .then( res => res.json() )
+    .then( results => this.setState({ results: results }))
+    .catch( err => console.log(err) )
+  }
 
   render() {
-    console.log(this.state.repos);
+    console.log(this.state.results);
     return (
       <div>
-        <Header />
+        <Header onSearch={ this.onSearch.bind(this) } />
         <Grid>
           <Row>
             <Col sm={5} md={4} lb={3}>
@@ -58,7 +64,6 @@ class Home extends React.Component {
       </div>
     )
   }
-
 }
 
 export default Home;

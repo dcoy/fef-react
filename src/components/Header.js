@@ -21,7 +21,7 @@ class Header extends React.Component {
           />
         </a>
         </Navbar.Header>
-        <Search />
+        <Search onSearch={ this.props.onSearch } />
       </Navbar>
     );
   }

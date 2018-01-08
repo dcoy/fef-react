@@ -17,9 +17,12 @@ class Search extends React.Component {
       .catch( err => console.log(err) )
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.searchGithub();
+
+    const { search } = this.state;
+    // this.searchGithub();
+    this.props.onSearch(search);
   };
   
   
@@ -29,11 +32,10 @@ class Search extends React.Component {
 
     return(
       <div>
-        <Form inline>
+        <Form inline onSubmit={this.handleSubmit.bind(this)}>
           <FormGroup>
             <FormControl type="text"
-                         onSubmit={ this.handleSubmit }
-                         placeholder="Search Github"
+                         placeholder="Search Username"
                          value={ this.state.search }
                          onChange = { search => this.setState({
                            search: search.target.value
